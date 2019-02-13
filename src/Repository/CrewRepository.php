@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\CopyBook;
+use App\Entity\Crew;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method CopyBook|null find($id, $lockMode = null, $lockVersion = null)
- * @method CopyBook|null findOneBy(array $criteria, array $orderBy = null)
- * @method CopyBook[]    findAll()
- * @method CopyBook[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Crew|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Crew|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Crew[]    findAll()
+ * @method Crew[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CopyBookRepository extends ServiceEntityRepository
+class CrewRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, CopyBook::class);
+        parent::__construct($registry, Crew::class);
     }
 
     // /**
-    //  * @return CopyBook[] Returns an array of CopyBook objects
+    //  * @return Crew[] Returns an array of Crew objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class CopyBookRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?CopyBook
+    public function findOneBySomeField($value): ?Crew
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

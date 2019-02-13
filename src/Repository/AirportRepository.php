@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Author;
+use App\Entity\Airport;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Author|null find($id, $lockMode = null, $lockVersion = null)
- * @method Author|null findOneBy(array $criteria, array $orderBy = null)
- * @method Author[]    findAll()
- * @method Author[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Airport|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Airport|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Airport[]    findAll()
+ * @method Airport[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AuthorRepository extends ServiceEntityRepository
+class AirportRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Author::class);
+        parent::__construct($registry, Airport::class);
     }
 
     // /**
-    //  * @return Author[] Returns an array of Author objects
+    //  * @return Airport[] Returns an array of Airport objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class AuthorRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Author
+    public function findOneBySomeField($value): ?Airport
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')

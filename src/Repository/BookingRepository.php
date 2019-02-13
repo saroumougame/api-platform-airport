@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Borrowers;
+use App\Entity\Booking;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Borrowers|null find($id, $lockMode = null, $lockVersion = null)
- * @method Borrowers|null findOneBy(array $criteria, array $orderBy = null)
- * @method Borrowers[]    findAll()
- * @method Borrowers[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Booking|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Booking|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Booking[]    findAll()
+ * @method Booking[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BorrowersRepository extends ServiceEntityRepository
+class BookingRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Borrowers::class);
+        parent::__construct($registry, Booking::class);
     }
 
     // /**
-    //  * @return Borrowers[] Returns an array of Borrowers objects
+    //  * @return Booking[] Returns an array of Booking objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class BorrowersRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Borrowers
+    public function findOneBySomeField($value): ?Booking
     {
         return $this->createQueryBuilder('b')
             ->andWhere('b.exampleField = :val')
