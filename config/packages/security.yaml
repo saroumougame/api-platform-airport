@@ -1,0 +1,97 @@
+#security:
+#    encoders:
+#        App\Entity\User: bcrypt
+#    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+#    providers:
+#        in_memory: { memory: ~ }
+#    firewalls:
+#
+#        login:
+#            pattern:  ^/api/login
+#            stateless: true
+#            anonymous: true
+#                json_login:
+#                check_path:               /api/login_check
+#                success_handler:          lexik_jwt_authentication.handler.authentication_success
+#                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+#
+#
+#        api:
+#            pattern:   ^/api
+#            stateless: true
+#            guard:
+#            authenticators:
+#                - lexik_jwt_authentication.jwt_token_authenticator
+#
+#
+#        dev:
+#            pattern: ^/(_(profiler|wdt)|css|images|js)/
+#            security: false
+#        main:
+#            anonymous: true
+#
+#            # activate different ways to authenticate
+#
+#            # http_basic: true
+#            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+#
+#            # form_login: true
+#            # https://symfony.com/doc/current/security/form_login_setup.html
+#
+#    # Easy way to control access for large sections of your site
+#    # Note: Only the *first* access control that matches will be used
+#    access_control:
+#        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+#        # - { path: ^/admin, roles: ROLE_ADMIN }
+#        # - { path: ^/profile, roles: ROLE_USER }
+#
+
+
+
+# app/config/packages/security.yaml
+security:
+    encoders:
+        App\Entity\User: bcrypt
+
+    role_hierarchy:
+        ROLE_READER: ROLE_USER
+        ROLE_ADMIN: ROLE_READER
+
+    providers:
+        doctrine_user:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        login:
+            pattern:  ^/login
+            stateless: true
+            anonymous: true
+            provider: doctrine_user
+            json_login:
+                check_path: /login_check
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        main:
+            pattern:   ^/
+            provider: doctrine_user
+            stateless: true
+            anonymous: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+    access_control:
+#        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/books, roles: [ ROLE_READER ] }
+#        - { path: ^/, roles: [ ROLE_READER ] }
+
