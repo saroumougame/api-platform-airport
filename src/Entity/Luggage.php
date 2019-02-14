@@ -41,7 +41,7 @@ class Luggage
      *     type="string",
      *     message="{{ value }} n'est pas une valeur correcte."
      * )
-     * @Groups("read_luggage", "write_luggage")
+     * @Groups({"read_luggage", "write_luggage"})
      */
     private $name;
     /**
@@ -51,18 +51,18 @@ class Luggage
      *     type="string",
      *     message="{{ value }} n'est pas une valeur correcte."
      * )
-     * @Groups("read_luggage", "write_luggage")
+     * @Groups({"read_luggage", "write_luggage"})
      */
     private $reference;
     /**
      * @ORM\Column(type="decimal", precision=5, scale=2)
      * @Assert\Type("decimal")
-     * @Groups("read_luggage", "write_luggage")
+     * @Groups({"read_luggage", "write_luggage"})
      */
     private $weight;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="luggages")
-     * @Groups("read_luggage")
+     * @Groups({"read_luggage"})
      */
     private $bookings;
 

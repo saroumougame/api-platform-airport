@@ -43,7 +43,7 @@ class Staff
      *      minMessage = "min {{ limit }} characters ",
      *      maxMessage = "max {{ limit }} characters"
      * )
-     * @Groups("read_staff", "write_staff")
+     * @Groups({"read_staff", "write_staff"})
      */
     private $firstname;
     /**
@@ -55,7 +55,7 @@ class Staff
      *      minMessage = "Your first name must be at least {{ limit }} characters long",
      *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
      * )
-     * @Groups("read_staff", "write_staff")
+     * @Groups({"read_staff", "write_staff"})
      */
     private $lastname;
     /**
@@ -67,12 +67,12 @@ class Staff
      *      minMessage = "Your first name must be at least {{ limit }} characters long",
      *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
      * )
-     * @Groups("read_staff", "write_staff")
+     * @Groups({"read_staff", "write_staff"})
      */
     private $job;
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Crew", mappedBy="staffs")
-     * @Groups("read_staff")
+     * @Groups({"read_staff"})
      */
     private $crews;
 
