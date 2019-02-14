@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User entity
@@ -28,7 +29,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * )
  * @ORM\Entity
  * @ORM\Table(name="user_account")
- * @Assert\UniqueEntity("email")
+ * @UniqueEntity("email")
  */
 class User implements UserInterface
 {
