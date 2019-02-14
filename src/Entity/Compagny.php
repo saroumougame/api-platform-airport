@@ -7,9 +7,24 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CompagnyRepository")
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *         "get"={"access_control"="is_granted('ROLE_USER')"},
+ *         "post"={"validation_groups"={"Default", "postValidation"},
+ *                  {"access_control"="is_granted('ROLE_ADMIN')"}
+ *}
+ *     },
+ *     itemOperations={
+ *         "delete",
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN') "},
+ *         "put"={"validation_groups"={"Default", "putValidation"}}
+ *     },
+ *     normalizationContext={"groups"={"read_compagny"}},
+ *     denormalizationContext={"groups"={"write_compagny"}}
+ * )
  */
 class Compagny
 {
@@ -21,6 +36,7 @@ class Compagny
     private $id;
     /**
      * @ORM\Column(type="string", length=30)
+     * @Groups({"read_booking", "write_booking"})
      * @Assert\NotBlank
      * @Assert\Type("string")
      * @Assert\Length(
@@ -33,6 +49,7 @@ class Compagny
     private $name;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Plane", mappedBy="company")
+     * @Groups({"read_plane"})
      */
     private $planes;
 

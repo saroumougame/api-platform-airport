@@ -48,19 +48,19 @@ class Booking
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Classes", inversedBy="bookings")
      * @Assert\NotBlank
-     * @Groups({"read_booking", "write_booking"})
+     * @Groups({"read_booking", "write_booking", "read_classes"})
      */
     private $class;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Flight", inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"read_booking", "write_booking"})
+     * @Groups({"read_booking", "write_booking", "read_flight" })
      */
     private $flight;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Luggage", inversedBy="bookings")
      * @Assert\NotBlank
-     * @Groups({"read_booking", "write_booking"})
+     * @Groups({"read_booking", "write_booking", "write_luggages" })
      */
     private $luggages;
     /**
@@ -79,7 +79,7 @@ class Booking
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"read_booking", "write_booking"})
+     * @Groups({"read_booking", "write_booking", "read_user"})
      */
     private $customer;
 

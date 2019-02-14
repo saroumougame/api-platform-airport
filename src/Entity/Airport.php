@@ -9,10 +9,22 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * @ApiResource(
- *     normalizationContext={"groups"={"read"}},
- *     denormalizationContext={"groups"={"write"}}
+ *     collectionOperations={
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN')"},
+ *         "post"={"validation_groups"={"Default", "postValidation"},
+ *                  {"access_control"="is_granted('ROLE_ADMIN')"}
+ *}
+ *     },
+ *     itemOperations={
+ *         "delete",
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN') "},
+ *         "put"={"validation_groups"={"Default", "putValidation"}}
+ *     },
+ *     normalizationContext={"groups"={"read_airport"}},
+ *     denormalizationContext={"groups"={"write_airport"}}
  * )
  * @ORM\Entity(repositoryClass="App\Repository\AirportRepository")
  */

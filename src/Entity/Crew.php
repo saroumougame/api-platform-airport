@@ -7,8 +7,23 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN')"},
+ *         "post"={"validation_groups"={"Default", "postValidation"},
+ *                  {"access_control"="is_granted('ROLE_ADMIN')"}
+ *}
+ *     },
+ *     itemOperations={
+ *         "delete",
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN') "},
+ *         "put"={"validation_groups"={"Default", "putValidation"}}
+ *     },
+ *     normalizationContext={"groups"={"read_crew"}},
+ *     denormalizationContext={"groups"={"write_crew"}}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\CrewRepository")
  */
 class Crew
@@ -28,10 +43,12 @@ class Crew
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Staff", inversedBy="crews")
      * @Assert\NotBlank
+     * @Groups({"read_booking", "write_booking", "read_staff"})
      */
     private $staffs;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Flight", mappedBy="crew")
+     * @Groups({"read_booking", "write_booking", "read_staff"})
      */
     private $flights;
 
