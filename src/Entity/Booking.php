@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
@@ -34,7 +34,6 @@ class Booking
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Flight", inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\Type("string")
      */
     private $flight;
     /**
@@ -44,6 +43,7 @@ class Booking
     private $luggages;
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank
      * @Assert\DateTime
      * @var string A "Y-m-d H:i:s" formatted value
      */

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 
 
 /**
@@ -78,6 +79,7 @@ class Flight
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="flight")
      * @Assert\NotBlank
+     * @ApiSubresource(maxDepth=1)
      */
     private $bookings;
 
