@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use ApiPlatform\Core\Annotation\ApiSubresource;
 /**
  * @ApiResource(
  *     collectionOperations={
@@ -42,7 +42,6 @@ class Plane
      *      max = 30,
      *      maxMessage = "max {{ limit }} characters"
      * )
-     * @Groups({"read_plane", "write_plane"})
      */
     private $name;
     /**
@@ -54,26 +53,22 @@ class Plane
      *      minMessage = "min {{ limit }} characters long",
      *      maxMessage = "max {{ limit }} characters"
      * )
-     * @Groups({"read_plane", "write_plane"})
      */
     private $reference;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Model", inversedBy="planes")
      * @Assert\NotBlank
-     * @Groups({"read_plane", "write_plane", "read_model"})
      */
     private $model;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Compagny", inversedBy="planes")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank
-     * @Groups({"read_plane", "write_plane"})
      */
     private $company;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Flight", mappedBy="plane")
      * @Assert\NotBlank
-     * @Groups({"read_plane"})
      */
     private $flights;
 

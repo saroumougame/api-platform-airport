@@ -103,12 +103,11 @@ class Flight
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="flight")
      * @Assert\NotBlank
-     * @ApiSubresource(maxDepth=1)
-     * @Groups("read_flight")
      */
     private $bookings;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="flight")
+     * @Groups({"read_flight", "write_flight"})
      */
     private $tickets;
 

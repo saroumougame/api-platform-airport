@@ -5,6 +5,9 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+
 
 /**
  * @ApiResource(
@@ -39,21 +42,21 @@ class Ticket
      *     type="string",
      *     message="{{ value }} n'est une valeur correct."
      * )
-     * @Groups("read_ticket")
+     * @Groups({"read_ticket"})
      */
     private $reference;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Flight", inversedBy="tickets")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank
-     * @Groups("read_ticket")
+     * @Groups({"read_ticket"})
      */
     private $flight;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tickets")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank
-     * @Groups("read_ticket")
+     * @Groups({"read_ticket"})
      */
     private $customer;
     /**
@@ -63,7 +66,7 @@ class Ticket
      *     type="integer",
      *     message="{{ value }} veuillez saisir un entier."
      * )
-     * @Groups("read_ticket")
+     * @Groups({"read_ticket"})
      */
     private $sit;
 

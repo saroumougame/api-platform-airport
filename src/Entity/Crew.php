@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 /**
  * @ApiResource(
  *     collectionOperations={
@@ -43,12 +44,13 @@ class Crew
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Staff", inversedBy="crews")
      * @Assert\NotBlank
-     * @Groups({"read_booking", "write_booking", "read_staff"})
+     * @Groups({"read_booking", "write_booking"})
      */
     private $staffs;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Flight", mappedBy="crew")
-     * @Groups({"read_booking", "write_booking", "read_staff"})
+     * @Groups({"read_booking", "write_booking"})
+     * @ApiSubresource(maxDepth=1)
      */
     private $flights;
 

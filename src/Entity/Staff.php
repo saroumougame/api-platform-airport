@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-
+use ApiPlatform\Core\Annotation\ApiSubresource;
 /**
  * @ApiResource(
  *     collectionOperations={
@@ -73,6 +73,7 @@ class Staff
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Crew", mappedBy="staffs")
      * @Groups({"read_staff"})
+     * @ApiSubresource(maxDepth=1)
      */
     private $crews;
 
