@@ -24,9 +24,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
  */
-
-
-//@TODO post acces controle role admin a changer test
 class Booking
 {
     /**

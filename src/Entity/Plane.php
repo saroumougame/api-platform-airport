@@ -6,10 +6,25 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN')"},
+ *         "post"={"validation_groups"={"Default", "postValidation"},
+ *                  {"access_control"="is_granted('ROLE_ADMIN')"}
+ *          }
+ *     },
+ *     itemOperations={
+ *         "delete",
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN') "},
+ *         "put"={"validation_groups"={"Default", "putValidation"}}
+ *     },
+ *     normalizationContext={"groups"={"read_plane"}},
+ *     denormalizationContext={"groups"={"write_plane"}}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\PlaneRepository")
  */
 class Plane
@@ -20,7 +35,6 @@ class Plane
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
      * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank
@@ -28,9 +42,9 @@ class Plane
      *      max = 30,
      *      maxMessage = "max {{ limit }} characters"
      * )
+     * @Groups({"read_plane", "write_plane"})
      */
     private $name;
-
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank
@@ -40,43 +54,64 @@ class Plane
      *      minMessage = "min {{ limit }} characters long",
      *      maxMessage = "max {{ limit }} characters"
      * )
+     * @Groups({"read_plane", "write_plane"})
      */
     private $reference;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Model", inversedBy="planes")
      * @Assert\NotBlank
+     * @Groups({"read_plane", "write_plane", "read_model"})
      */
     private $model;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Compagny", inversedBy="planes")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank
+     * @Groups({"read_plane", "write_plane"})
      */
     private $company;
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Flight", mappedBy="plane")
      * @Assert\NotBlank
+     * @Groups({"read_plane"})
      */
     private $flights;
 
+    /**
+     * Plane constructor
+     */
     public function __construct()
     {
         $this->flights = new ArrayCollection();
     }
 
+    /**
+     * getId function
+     *
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * getName function
+     *
+     * @return null|string
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * setName function
+     *
+     * @param string $name
+     *
+     * @return Plane
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -84,11 +119,23 @@ class Plane
         return $this;
     }
 
+    /**
+     * getReference function
+     *
+     * @return null|string
+     */
     public function getReference(): ?string
     {
         return $this->reference;
     }
 
+    /**
+     * setReference function
+     *
+     * @param string $reference
+     *
+     * @return Plane
+     */
     public function setReference(string $reference): self
     {
         $this->reference = $reference;
@@ -96,11 +143,23 @@ class Plane
         return $this;
     }
 
+    /**
+     * getModel function
+     *
+     * @return Model|null
+     */
     public function getModel(): ?Model
     {
         return $this->model;
     }
 
+    /**
+     * setModel function
+     *
+     * @param Model|null $model
+     *
+     * @return Plane
+     */
     public function setModel(?Model $model): self
     {
         $this->model = $model;
@@ -108,11 +167,23 @@ class Plane
         return $this;
     }
 
+    /**
+     * getCompany function
+     *
+     * @return Compagny|null
+     */
     public function getCompany(): ?Compagny
     {
         return $this->company;
     }
 
+    /**
+     * setCompany function
+     *
+     * @param Compagny|null $company
+     *
+     * @return Plane
+     */
     public function setCompany(?Compagny $company): self
     {
         $this->company = $company;
@@ -128,26 +199,26 @@ class Plane
         return $this->flights;
     }
 
-//    public function addFlight(Flight $flight): self
-//    {
-//        if (!$this->flights->contains($flight)) {
-//            $this->flights[] = $flight;
-//            $flight->setPlane($this);
-//        }
-//
-//        return $this;
-//    }
-//
-//    public function removeFlight(Flight $flight): self
-//    {
-//        if ($this->flights->contains($flight)) {
-//            $this->flights->removeElement($flight);
-//            // set the owning side to null (unless already changed)
-//            if ($flight->getPlane() === $this) {
-//                $flight->setPlane(null);
-//            }
-//        }
-//
-//        return $this;
-//    }
+    //    public function addFlight(Flight $flight): self
+    //    {
+    //        if (!$this->flights->contains($flight)) {
+    //            $this->flights[] = $flight;
+    //            $flight->setPlane($this);
+    //        }
+    //
+    //        return $this;
+    //    }
+    //
+    //    public function removeFlight(Flight $flight): self
+    //    {
+    //        if ($this->flights->contains($flight)) {
+    //            $this->flights->removeElement($flight);
+    //            // set the owning side to null (unless already changed)
+    //            if ($flight->getPlane() === $this) {
+    //                $flight->setPlane(null);
+    //            }
+    //        }
+    //
+    //        return $this;
+    //    }
 }

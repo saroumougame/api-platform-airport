@@ -6,11 +6,26 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *         "get"={"access_control"="is_granted('ROLE_USER')"},
+ *         "post"={"validation_groups"={"Default", "postValidation"},
+ *                  {"access_control"="is_granted('ROLE_USER')"}
+ *          }
+ *     },
+ *     itemOperations={
+ *         "delete",
+ *         "get"={"access_control"="is_granted('ROLE_USER') "},
+ *         "put"={"validation_groups"={"Default", "putValidation"}}
+ *     },
+ *     normalizationContext={"groups"={"read_flight"}},
+ *     denormalizationContext={"groups"={"write_flight"}}
+ * )
  * @Assert\Callback({"App\Validator\FlightDateValidator", "validateDate"})
  * @ORM\Entity(repositoryClass="App\Repository\FlightRepository")
  */
@@ -29,6 +44,7 @@ class Flight
      *      max = 255,
      *      maxMessage = "trop long {{ limit }} characters"
      * )
+     * @Groups("read_flight", "write_flight")
      */
     private $reference;
     /**
@@ -38,6 +54,7 @@ class Flight
      * @Assert\NotIdenticalTo(
      *     propertyPath="arrival_airport"
      * )
+     * @Groups("read_flight", "write_flight")
      */
     private $departure_airport;
     /**
@@ -47,6 +64,7 @@ class Flight
      * @Assert\NotIdenticalTo(
      *     propertyPath="departure_airport"
      * )
+     * @Groups("read_flight", "write_flight")
      */
     private $arrival_airport;
     /**
@@ -56,6 +74,7 @@ class Flight
      * @Assert\NotIdenticalTo(
      *     propertyPath="arrival_date"
      * )
+     * @Groups("read_flight", "write_flight")
      */
     private $departure_date;
     /**
@@ -65,26 +84,29 @@ class Flight
      * @Assert\NotIdenticalTo(
      *     propertyPath="departure_date"
      * )
+     * @Groups("read_flight", "write_flight")
      */
     private $arrival_date;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Plane", inversedBy="flights")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank
+     * @Groups("read_flight", "write_flight")
      */
     private $plane;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Crew", inversedBy="flights")
      * @Assert\NotBlank
+     * @Groups("read_flight", "write_flight")
      */
     private $crew;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="flight")
      * @Assert\NotBlank
      * @ApiSubresource(maxDepth=1)
+     * @Groups("read_flight")
      */
     private $bookings;
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="flight")
      */
@@ -96,11 +118,11 @@ class Flight
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
-        $this->tickets = new ArrayCollection();
+        $this->tickets  = new ArrayCollection();
     }
 
     /**
-     * Description getId function
+     * getId function
      *
      * @return int|null
      */
@@ -110,7 +132,7 @@ class Flight
     }
 
     /**
-     * Description getReference function
+     * getReference function
      *
      * @return null|string
      */
@@ -120,7 +142,7 @@ class Flight
     }
 
     /**
-     * Description setReference function
+     * setReference function
      *
      * @param string $reference
      *
@@ -134,7 +156,7 @@ class Flight
     }
 
     /**
-     * Description getDepartureAirport function
+     * getDepartureAirport function
      *
      * @return Airport|null
      */
@@ -144,7 +166,7 @@ class Flight
     }
 
     /**
-     * Description setDepartureAirport function
+     * setDepartureAirport function
      *
      * @param Airport|null $departure_airport
      *
@@ -158,7 +180,7 @@ class Flight
     }
 
     /**
-     * Description getArrivalAirport function
+     * getArrivalAirport function
      *
      * @return Airport|null
      */
@@ -168,7 +190,7 @@ class Flight
     }
 
     /**
-     * Description setArrivalAirport function
+     * setArrivalAirport function
      *
      * @param Airport|null $arrival_airport
      *
@@ -182,7 +204,7 @@ class Flight
     }
 
     /**
-     * Description getDepartureDate function
+     * getDepartureDate function
      *
      * @return \DateTimeInterface|null
      */
@@ -192,7 +214,7 @@ class Flight
     }
 
     /**
-     * Description setDepartureDate function
+     * setDepartureDate function
      *
      * @param \DateTimeInterface $departure_date
      *
@@ -206,7 +228,7 @@ class Flight
     }
 
     /**
-     * Description getArrivalDate function
+     * getArrivalDate function
      *
      * @return \DateTimeInterface|null
      */
@@ -216,7 +238,7 @@ class Flight
     }
 
     /**
-     * Description setArrivalDate function
+     * setArrivalDate function
      *
      * @param \DateTimeInterface $arrival_date
      *
@@ -230,7 +252,7 @@ class Flight
     }
 
     /**
-     * Description getPlane function
+     * getPlane function
      *
      * @return Plane|null
      */
@@ -240,7 +262,7 @@ class Flight
     }
 
     /**
-     * Description setPlane function
+     * setPlane function
      *
      * @param Plane|null $plane
      *
@@ -254,7 +276,7 @@ class Flight
     }
 
     /**
-     * Description getCrew function
+     * getCrew function
      *
      * @return Crew|null
      */
@@ -264,7 +286,7 @@ class Flight
     }
 
     /**
-     * Description setCrew function
+     * setCrew function
      *
      * @param Crew|null $crew
      *
@@ -293,6 +315,13 @@ class Flight
         return $this->tickets;
     }
 
+    /**
+     * addTicket function
+     *
+     * @param Ticket $ticket
+     *
+     * @return Flight
+     */
     public function addTicket(Ticket $ticket): self
     {
         if (!$this->tickets->contains($ticket)) {
@@ -303,6 +332,13 @@ class Flight
         return $this;
     }
 
+    /**
+     * removeTicket function
+     *
+     * @param Ticket $ticket
+     *
+     * @return Flight
+     */
     public function removeTicket(Ticket $ticket): self
     {
         if ($this->tickets->contains($ticket)) {
