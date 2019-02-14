@@ -86,11 +86,17 @@ class Flight
     private $bookings;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="flight")
+     */
+    private $tickets;
+
+    /**
      * Flight constructor
      */
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
+        $this->tickets = new ArrayCollection();
     }
 
     /**
@@ -277,6 +283,37 @@ class Flight
     public function getBookings(): Collection
     {
         return $this->bookings;
+    }
+
+    /**
+     * @return Collection|Ticket[]
+     */
+    public function getTickets(): Collection
+    {
+        return $this->tickets;
+    }
+
+    public function addTicket(Ticket $ticket): self
+    {
+        if (!$this->tickets->contains($ticket)) {
+            $this->tickets[] = $ticket;
+            $ticket->setFlight($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTicket(Ticket $ticket): self
+    {
+        if ($this->tickets->contains($ticket)) {
+            $this->tickets->removeElement($ticket);
+            // set the owning side to null (unless already changed)
+            if ($ticket->getFlight() === $this) {
+                $ticket->setFlight(null);
+            }
+        }
+
+        return $this;
     }
 
     //    public function addBooking(Booking $booking): self
