@@ -19,38 +19,58 @@ class Crew
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Type("string")
      */
     private $reference;
-
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Staff", inversedBy="crews")
+     * @Assert\NotBlank
      */
     private $staffs;
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Flight", mappedBy="crew")
      */
     private $flights;
 
+    /**
+     * Crew constructor
+     */
     public function __construct()
     {
-        $this->staffs = new ArrayCollection();
+        $this->staffs  = new ArrayCollection();
         $this->flights = new ArrayCollection();
     }
 
+    /**
+     * Description getId function
+     *
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Description getReference function
+     *
+     * @return null|string
+     */
     public function getReference(): ?string
     {
         return $this->reference;
     }
 
+    /**
+     * Description setReference function
+     *
+     * @param string $reference
+     *
+     * @return Crew
+     */
     public function setReference(string $reference): self
     {
         $this->reference = $reference;
@@ -66,6 +86,13 @@ class Crew
         return $this->staffs;
     }
 
+    /**
+     * Description addStaff function
+     *
+     * @param Staff $staff
+     *
+     * @return Crew
+     */
     public function addStaff(Staff $staff): self
     {
         if (!$this->staffs->contains($staff)) {
@@ -75,6 +102,13 @@ class Crew
         return $this;
     }
 
+    /**
+     * Description removeStaff function
+     *
+     * @param Staff $staff
+     *
+     * @return Crew
+     */
     public function removeStaff(Staff $staff): self
     {
         if ($this->staffs->contains($staff)) {
@@ -92,26 +126,26 @@ class Crew
         return $this->flights;
     }
 
-//    public function addFlight(Flight $flight): self
-//    {
-//        if (!$this->flights->contains($flight)) {
-//            $this->flights[] = $flight;
-//            $flight->setCrew($this);
-//        }
-//
-//        return $this;
-//    }
-//
-//    public function removeFlight(Flight $flight): self
-//    {
-//        if ($this->flights->contains($flight)) {
-//            $this->flights->removeElement($flight);
-//            // set the owning side to null (unless already changed)
-//            if ($flight->getCrew() === $this) {
-//                $flight->setCrew(null);
-//            }
-//        }
-//
-//        return $this;
-//    }
+    //    public function addFlight(Flight $flight): self
+    //    {
+    //        if (!$this->flights->contains($flight)) {
+    //            $this->flights[] = $flight;
+    //            $flight->setCrew($this);
+    //        }
+    //
+    //        return $this;
+    //    }
+    //
+    //    public function removeFlight(Flight $flight): self
+    //    {
+    //        if ($this->flights->contains($flight)) {
+    //            $this->flights->removeElement($flight);
+    //            // set the owning side to null (unless already changed)
+    //            if ($flight->getCrew() === $this) {
+    //                $flight->setCrew(null);
+    //            }
+    //        }
+    //
+    //        return $this;
+    //    }
 }

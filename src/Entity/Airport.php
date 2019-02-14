@@ -6,9 +6,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read"}},
+ *     denormalizationContext={"groups"={"write"}}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\AirportRepository")
  */
 class Airport
@@ -19,38 +24,68 @@ class Airport
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Type(
+     *     type="string",
+     *     message="The value {{ value }} is not a valid {{ type }}."
+     * )
      */
     private $name;
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Flight", mappedBy="departure_airport")
+     * @Groups("read")
+     * @Assert\NotIdenticalTo(
+     *     propertyPath="arrival_airports"
+     * )
      */
     private $flights;
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Flight", mappedBy="arrival_airport")
+     * @Groups("read")
+     * @Assert\NotIdenticalTo(
+     *     propertyPath="flights"
+     * )
      */
     private $arrival_airports;
 
+    /**
+     * Airport constructor
+     */
     public function __construct()
     {
-        $this->flights = new ArrayCollection();
+        $this->flights          = new ArrayCollection();
         $this->arrival_airports = new ArrayCollection();
     }
 
+    /**
+     * getId function
+     *
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * getName function
+     *
+     * @return null|string
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * setName function
+     *
+     * @param string $name
+     *
+     * @return Airport
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -66,28 +101,42 @@ class Airport
         return $this->flights;
     }
 
-//    public function addFlight(Flight $flight): self
-//    {
-//        if (!$this->flights->contains($flight)) {
-//            $this->flights[] = $flight;
-//            $flight->setDepartureAirport($this);
-//        }
-//
-//        return $this;
-//    }
+    /**
+     * addFlight function
+     *
+     * @param Flight $flight
+     *
+     * @return Airport
+     */
+    public function addFlight(Flight $flight): self
+    {
+        if (!$this->flights->contains($flight)) {
+            $this->flights[] = $flight;
+            $flight->setDepartureAirport($this);
+        }
 
-//    public function removeFlight(Flight $flight): self
-//    {
-//        if ($this->flights->contains($flight)) {
-//            $this->flights->removeElement($flight);
-//            // set the owning side to null (unless already changed)
-//            if ($flight->getDepartureAirport() === $this) {
-//                $flight->setDepartureAirport(null);
-//            }
-//        }
-//
-//        return $this;
-//    }
+        return $this;
+    }
+
+    /**
+     * removeFlight function
+     *
+     * @param Flight $flight
+     *
+     * @return Airport
+     */
+    public function removeFlight(Flight $flight): self
+    {
+        if ($this->flights->contains($flight)) {
+            $this->flights->removeElement($flight);
+            // set the owning side to null (unless already changed)
+            if ($flight->getDepartureAirport() === $this) {
+                $flight->setDepartureAirport(null);
+            }
+        }
+
+        return $this;
+    }
 
     /**
      * @return Collection|Flight[]
@@ -97,26 +146,26 @@ class Airport
         return $this->arrival_airports;
     }
 
-//    public function addArrivalAirport(Flight $arrivalAirport): self
-//    {
-//        if (!$this->arrival_airports->contains($arrivalAirport)) {
-//            $this->arrival_airports[] = $arrivalAirport;
-//            $arrivalAirport->setArrivalAirport($this);
-//        }
-//
-//        return $this;
-//    }
-//
-//    public function removeArrivalAirport(Flight $arrivalAirport): self
-//    {
-//        if ($this->arrival_airports->contains($arrivalAirport)) {
-//            $this->arrival_airports->removeElement($arrivalAirport);
-//            // set the owning side to null (unless already changed)
-//            if ($arrivalAirport->getArrivalAirport() === $this) {
-//                $arrivalAirport->setArrivalAirport(null);
-//            }
-//        }
-//
-//        return $this;
-//    }
+    //    public function addArrivalAirport(Flight $arrivalAirport): self
+    //    {
+    //        if (!$this->arrival_airports->contains($arrivalAirport)) {
+    //            $this->arrival_airports[] = $arrivalAirport;
+    //            $arrivalAirport->setArrivalAirport($this);
+    //        }
+    //
+    //        return $this;
+    //    }
+    //
+    //    public function removeArrivalAirport(Flight $arrivalAirport): self
+    //    {
+    //        if ($this->arrival_airports->contains($arrivalAirport)) {
+    //            $this->arrival_airports->removeElement($arrivalAirport);
+    //            // set the owning side to null (unless already changed)
+    //            if ($arrivalAirport->getArrivalAirport() === $this) {
+    //                $arrivalAirport->setArrivalAirport(null);
+    //            }
+    //        }
+    //
+    //        return $this;
+    //    }
 }
