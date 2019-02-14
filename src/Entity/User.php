@@ -28,6 +28,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * )
  * @ORM\Entity
  * @ORM\Table(name="user_account")
+ * @Assert\UniqueEntity("email")
  */
 class User implements UserInterface
 {
