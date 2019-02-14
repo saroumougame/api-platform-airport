@@ -18,7 +18,9 @@ class BookingEventListener
     {
         /** @var Booking $user */
         $booking = $event->getControllerResult();
-        if ($booking instanceof Booking) {
+        /** @var string $bookingStatus */
+        $bookingStatus = $booking->getStatus();
+        if ($booking instanceof Booking && $bookingStatus == '') {
             $booking->setStatus('processing');
         }
     }
