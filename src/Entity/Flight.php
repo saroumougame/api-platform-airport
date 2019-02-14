@@ -44,7 +44,7 @@ class Flight
      *      max = 255,
      *      maxMessage = "trop long {{ limit }} characters"
      * )
-     * @Groups("read_flight", "write_flight")
+     * @Groups({"read_flight", "write_flight"})
      */
     private $reference;
     /**
@@ -54,7 +54,7 @@ class Flight
      * @Assert\NotIdenticalTo(
      *     propertyPath="arrival_airport"
      * )
-     * @Groups("read_flight", "write_flight")
+     * @Groups({"read_flight", "write_flight"})
      */
     private $departure_airport;
     /**
@@ -64,7 +64,7 @@ class Flight
      * @Assert\NotIdenticalTo(
      *     propertyPath="departure_airport"
      * )
-     * @Groups("read_flight", "write_flight")
+     * @Groups({"read_flight", "write_flight"})
      */
     private $arrival_airport;
     /**
@@ -74,7 +74,7 @@ class Flight
      * @Assert\NotIdenticalTo(
      *     propertyPath="arrival_date"
      * )
-     * @Groups("read_flight", "write_flight")
+     * @Groups({"read_flight", "write_flight"})
      */
     private $departure_date;
     /**
@@ -84,20 +84,20 @@ class Flight
      * @Assert\NotIdenticalTo(
      *     propertyPath="departure_date"
      * )
-     * @Groups("read_flight", "write_flight")
+     * @Groups({"read_flight", "write_flight"})
      */
     private $arrival_date;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Plane", inversedBy="flights")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank
-     * @Groups("read_flight", "write_flight")
+     * @Groups({"read_flight", "write_flight"})
      */
     private $plane;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Crew", inversedBy="flights")
      * @Assert\NotBlank
-     * @Groups("read_flight", "write_flight")
+     * @Groups({"read_flight", "write_flight"})
      */
     private $crew;
     /**
