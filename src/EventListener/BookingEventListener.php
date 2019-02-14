@@ -5,6 +5,7 @@ namespace App\EventListener;
 use App\Entity\Booking;
 use App\Entity\Ticket;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 
 class BookingEventListener
@@ -22,6 +23,15 @@ class BookingEventListener
         $this->em = $em;
     }
 
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            KernelEvents::VIEW => ['generateTicket', EventPriorities::POST_WRITE],
+        ];
+    }
+
+
     /**
      * onKernelView function
      *
@@ -30,12 +40,14 @@ class BookingEventListener
      * @return void
      * @internal param ObjectManager $manager
      */
-    public function onKernelView(GetResponseForControllerResultEvent $event)
+    public function generateTicket(GetResponseForControllerResultEvent $event)
     {
         /** @var Booking $user */
         $booking = $event->getControllerResult();
 
-        if ($booking instanceof Booking) {
+        $request = $event->getRequest()->getMethod();
+
+        if ($booking instanceof Booking && $request == 'POST') {
             /** @var string $bookingStatus */
             $bookingStatus = $booking->getStatus();
 
@@ -59,6 +71,10 @@ class BookingEventListener
             $this->em->persist($ticket);
             $this->em->flush();
         }
+
+
+
+
     }
 
     /**
@@ -81,4 +97,7 @@ class BookingEventListener
 
         return $randomString;
     }
+
+
+
 }

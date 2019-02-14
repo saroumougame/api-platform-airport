@@ -31,7 +31,4 @@ services:
 
     App\EventListener\BookingEventListener:
         tags:
-            - { name: kernel.event_listener,
-                event: kernel.view,
-                method: onKernelView,
-                priority: 63 }
+            - {name: 'kernel.event_listener', event: 'kernel.view', method: 'generateTicket', priority: 63 }
