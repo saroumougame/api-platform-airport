@@ -64,7 +64,7 @@ class Flight
      * @Assert\NotIdenticalTo(
      *     propertyPath="departure_date"
      * )
-     * @Assert\Callback("App\Validator\FlightDateValidator", "validateDate")
+     * @Assert\Callback({"App\Validator\FlightDateValidator", "validateDate"})
      */
     private $arrival_date;
     /**

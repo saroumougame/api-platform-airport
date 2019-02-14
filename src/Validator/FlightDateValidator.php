@@ -16,7 +16,7 @@ class FlightDateValidator
      *
      * @return void
      */
-    public function validateDate(Flight $object, ExecutionContextInterface $context, $payload)
+    public static function validateDate(Flight $object, ExecutionContextInterface $context, $payload)
     {
         /** @var \DateTime $departureDate */
         $departureDate = $object->getDepartureDate();
