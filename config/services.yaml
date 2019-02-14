@@ -28,3 +28,10 @@ services:
             - {name: 'kernel.event_listener', event: 'kernel.setPassword', method: 'onKernelView', priority: 63 }
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\EventListener\BookingEventListener:
+        tags:
+            - { name: kernel.event_listener,
+                event: kernel.view,
+                method: onKernelView,
+                priority: 63 }
