@@ -11,6 +11,7 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
 
 /**
  * @ApiResource()
+ * @Assert\Callback({"App\Validator\FlightDateValidator", "validateDate"})
  * @ORM\Entity(repositoryClass="App\Repository\FlightRepository")
  */
 class Flight
@@ -64,7 +65,6 @@ class Flight
      * @Assert\NotIdenticalTo(
      *     propertyPath="departure_date"
      * )
-     * @Assert\Callback({"App\Validator\FlightDateValidator", "validateDate"})
      */
     private $arrival_date;
     /**

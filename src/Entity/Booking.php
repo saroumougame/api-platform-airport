@@ -5,10 +5,28 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN')"},
+ *         "post"={"validation_groups"={"Default", "postValidation"},
+ *                  {"access_control"="is_granted('ROLE_ADMIN')"}
+ *}
+ *     },
+ *     itemOperations={
+ *         "delete",
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN') "},
+ *         "put"={"validation_groups"={"Default", "putValidation"}}
+ *     },
+ *     normalizationContext={"groups"={"read_booking"}},
+ *     denormalizationContext={"groups"={"write_booking"}}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
  */
+
+
+//@TODO post acces controle role admin a changer test
 class Booking
 {
     /**
@@ -24,21 +42,25 @@ class Booking
      *     type="string",
      *     message="The value {{ value }} is not a valid {{ type }}."
      * )
+     * @Groups({"read_booking", "write_booking"})
      */
     private $reference;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Classes", inversedBy="bookings")
      * @Assert\NotBlank
+     * @Groups({"read_booking", "write_booking"})
      */
     private $class;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Flight", inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"read_booking", "write_booking"})
      */
     private $flight;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Luggage", inversedBy="bookings")
      * @Assert\NotBlank
+     * @Groups({"read_booking", "write_booking"})
      */
     private $luggages;
     /**
@@ -46,15 +68,18 @@ class Booking
      * @Assert\NotBlank
      * @Assert\DateTime
      * @var string A "Y-m-d H:i:s" formatted value
+     * @Groups({"read_booking", "write_booking"})
      */
     private $bookingDate;
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Groups({"read_booking"})
      */
     private $status;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"read_booking", "write_booking"})
      */
     private $customer;
 

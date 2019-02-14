@@ -4,6 +4,7 @@ namespace App\Validator;
 
 use App\Entity\Flight;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class FlightDateValidator
 {
@@ -25,9 +26,11 @@ class FlightDateValidator
 
         if ($arrivalDate <= $departureDate) {
             $context->buildViolation('The arrival date is not valid!')
-                ->atPath('arrival_airport')
+                ->atPath('arrival_date')
                 ->addViolation()
             ;
+
+            return new Response('The arrival date is not valid!');
         }
     }
 }
