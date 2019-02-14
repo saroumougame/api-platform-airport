@@ -6,6 +6,8 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ApiResource()
@@ -22,44 +24,60 @@ class Flight
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "trop long {{ limit }} characters"
+     * )
      */
     private $reference;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Airport", inversedBy="flights")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $departure_airport;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Airport", inversedBy="arrival_airports")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $arrival_airport;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank
+     * @Assert\DateTime
+     * @var string A "Y-m-d H:i:s" formatted value
      */
     private $departure_date;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank
+     * @Assert\DateTime
+     * @var string A "Y-m-d H:i:s" formatted value
      */
     private $arrival_date;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Plane", inversedBy="flights")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $plane;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Crew", inversedBy="flights")
+     * @Assert\NotBlank
      */
     private $crew;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="flight")
+     * @Assert\NotBlank
      */
     private $bookings;
 

@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
@@ -22,16 +23,27 @@ class Model
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      max = 50,
+     *      maxMessage = "max {{ limit }} characters"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank
+     * @Assert\Type(
+     *     type="integer",
+     *     message="{{ value }} veuillez saisir un entier."
+     * )
      */
     private $sits;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Plane", mappedBy="model")
+     * @Assert\NotBlank
      */
     private $planes;
 

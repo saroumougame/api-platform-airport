@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
@@ -22,27 +23,42 @@ class Plane
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      max = 30,
+     *      maxMessage = "max {{ limit }} characters"
+     * )
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 50,
+     *      minMessage = "min {{ limit }} characters long",
+     *      maxMessage = "max {{ limit }} characters"
+     * )
      */
     private $reference;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Model", inversedBy="planes")
+     * @Assert\NotBlank
      */
     private $model;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Compagny", inversedBy="planes")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $company;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Flight", mappedBy="plane")
+     * @Assert\NotBlank
      */
     private $flights;
 
