@@ -6,9 +6,23 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
 {
+    /** @var UserPasswordEncoderInterface $encoder */
+    private $encoder;
+
+    /**
+     * UserFixtures constructor
+     *
+     * @param UserPasswordEncoderInterface $encoder
+     */
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
     /**
      * Load fixture function
      *
@@ -27,7 +41,9 @@ class UserFixtures extends Fixture
             $user->setFirstName($faker->firstName);
             $user->setLastName($faker->lastName);
             $user->setEmail($faker->email);
-            $user->setPassword($faker->password);
+
+            $password = $this->encoder->encodePassword($user, 'toto');
+            $user->setPassword($password);
 
             $manager->persist($user);
         }
