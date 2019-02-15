@@ -38,9 +38,21 @@ class UserFixtures extends Fixture
         for ($i = 0; $i < 10; $i++) {
             /** @var User $user */
             $user = new User();
-            $user->setFirstName($faker->firstName);
-            $user->setLastName($faker->lastName);
-            $user->setEmail($faker->email);
+            if ($i == 0) {
+                $user->setFirstName('admin');
+                $user->setLastName('admin');
+                $user->setEmail('admin@test.com');
+                $user->setRoles([
+                    "ROLE_ADMIN"
+                ]);
+            } else {
+                $user->setFirstName($faker->firstName);
+                $user->setLastName($faker->lastName);
+                $user->setEmail($faker->email);
+                $user->setRoles([
+                    "ROLE_USER"
+                ]);
+            }
 
             $password = $this->encoder->encodePassword($user, 'toto');
             $user->setPassword($password);
