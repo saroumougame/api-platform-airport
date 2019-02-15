@@ -72,7 +72,6 @@ class Staff
     private $job;
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Crew", mappedBy="staffs")
-     * @Groups({"read_staff"})
      * @ApiSubresource(maxDepth=1)
      */
     private $crews;

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * @ApiResource(
  *     collectionOperations={
@@ -73,6 +74,7 @@ class Classes
      * Description getNom function
      *
      * @return null|string
+     * @Groups({"read_booking", "write_booking"})
      */
     public function getNom(): ?string
     {
@@ -100,6 +102,12 @@ class Classes
     {
         return $this->bookings;
     }
+
+
+//    public function __toString()
+//    {
+//        return (string) $this->getNom();
+//    }
 
     //    public function addBooking(Booking $booking): self
     //    {

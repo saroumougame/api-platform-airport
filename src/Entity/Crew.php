@@ -25,6 +25,7 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
  *     normalizationContext={"groups"={"read_crew"}},
  *     denormalizationContext={"groups"={"write_crew"}}
  * )
+ * @Assert\Callback({"App\Validator\CrewLimitPeopleValidator", "validateCrew"})
  * @ORM\Entity(repositoryClass="App\Repository\CrewRepository")
  */
 class Crew
@@ -39,17 +40,19 @@ class Crew
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
      * @Assert\Type("string")
+     * @Groups({"read_crew", "write_crew"})
      */
     private $reference;
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Staff", inversedBy="crews")
      * @Assert\NotBlank
-     * @Groups({"read_booking", "write_booking"})
+     * @Groups({"read_staff","read_crew", "write_crew"})
+     * @ApiSubresource(maxDepth=1)
      */
     private $staffs;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Flight", mappedBy="crew")
-     * @Groups({"read_booking", "write_booking"})
+     * @Groups({"read_crew", "write_crew"})
      * @ApiSubresource(maxDepth=1)
      */
     private $flights;

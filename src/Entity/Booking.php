@@ -6,7 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-use App\Controller\FactureController;
+use App\Controller\BookingController;
 /**
  * @ApiResource(
  *     collectionOperations={
@@ -17,12 +17,12 @@ use App\Controller\FactureController;
  *     },
  *     itemOperations={
  *         "delete",
- *         "get"={"access_control"="is_granted('ROLE_ADMIN') "},
+ *         "get"={"access_control"="is_granted('ROLE_USER') "},
  *         "put"={"validation_groups"={"Default", "putValidation"}},
  *         "post_publication"={
  *         "method"="GET",
- *         "path"="/bookings/{id}/facture",
- *         "controller"=FactureController::class,
+ *         "path"="/bookings/{id}/nbPlaceDispo",
+ *         "controller"=BookingController::class,
  *     }
  *     },
  *     normalizationContext={"groups"={"read_booking"}},

@@ -16,12 +16,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ApiResource(
  *     collectionOperations={
- *         "get",
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN')"},
  *         "post"={"validation_groups"={"Default", "postValidation"}}
  *     },
  *     itemOperations={
- *         "delete",
- *         "get",
+ *         "delete"={"access_control"="is_granted('ROLE_ADMIN')"},
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN')"},
  *         "put"={"validation_groups"={"Default", "putValidation"}}
  *     },
  *     normalizationContext={"groups"={"read"}},

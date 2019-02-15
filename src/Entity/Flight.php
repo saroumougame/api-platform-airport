@@ -15,7 +15,7 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
  *     collectionOperations={
  *         "get"={"access_control"="is_granted('ROLE_USER')"},
  *         "post"={"validation_groups"={"Default", "postValidation"},
- *                  {"access_control"="is_granted('ROLE_USER')"}
+ *                  {"access_control"="is_granted('ROLE_ADMIN')"}
  *          }
  *     },
  *     itemOperations={
@@ -107,7 +107,7 @@ class Flight
     private $bookings;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="flight")
-     * @Groups({"read_flight", "write_flight"})
+     *
      */
     private $tickets;
 

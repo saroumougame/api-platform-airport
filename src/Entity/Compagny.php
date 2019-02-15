@@ -36,7 +36,7 @@ class Compagny
     private $id;
     /**
      * @ORM\Column(type="string", length=30)
-     * @Groups({"read_booking", "write_booking"})
+     * @Groups({"read_compagny", "write_compagny"})
      * @Assert\NotBlank
      * @Assert\Type("string")
      * @Assert\Length(

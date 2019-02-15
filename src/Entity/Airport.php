@@ -43,6 +43,7 @@ class Airport
      *     type="string",
      *     message="The value {{ value }} is not a valid {{ type }}."
      * )
+     * @Groups({"read_airport", "write_airport"})
      */
     private $name;
     /**
@@ -51,6 +52,7 @@ class Airport
      * @Assert\NotIdenticalTo(
      *     propertyPath="arrival_airports"
      * )
+     * @Groups({"read_airport", "write_airport"})
      */
     private $flights;
     /**
@@ -59,6 +61,7 @@ class Airport
      * @Assert\NotIdenticalTo(
      *     propertyPath="flights"
      * )
+     * @Groups({"read_airport", "write_airport"})
      */
     private $arrival_airports;
 
