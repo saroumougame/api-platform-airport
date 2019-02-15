@@ -110,7 +110,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description getId function
+     * getId function
      *
      * @return int
      */
@@ -120,7 +120,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description getPassword function
+     * getPassword function
      *
      * @return null|string
      */
@@ -130,7 +130,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description setPassword function
+     * setPassword function
      *
      * @param string $password
      *
@@ -144,7 +144,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description getPlainPassword function
+     * getPlainPassword function
      *
      * @return null|string
      */
@@ -154,7 +154,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description setPlainPassword function
+     * setPlainPassword function
      *
      * @param string $plainPassword
      *
@@ -176,7 +176,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description eraseCredentials function
+     * eraseCredentials function
      *
      * @return void
      */
@@ -194,7 +194,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description getRoles function
+     * getRoles function
      *
      * @return array
      */
@@ -207,7 +207,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description setRoles function
+     * setRoles function
      *
      * @param $roles
      *
@@ -230,7 +230,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description addBooking function
+     * addBooking function
      *
      * @param Booking $booking
      *
@@ -247,7 +247,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description removeBooking function
+     * removeBooking function
      *
      * @param Booking $booking
      *
@@ -275,7 +275,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description addTicket function
+     * addTicket function
      *
      * @param Ticket $ticket
      *
@@ -292,7 +292,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description removeTicket function
+     * removeTicket function
      *
      * @param Ticket $ticket
      *
@@ -312,7 +312,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description getLastName function
+     * getLastName function
      *
      * @return string
      */
@@ -322,11 +322,9 @@ class User implements UserInterface
     }
 
     /**
-     * Description setLastName function
+     * setLastName function
      *
      * @param string $lastName
-     *
-     * @return
      */
     public function setLastName(string $lastName)
     {
@@ -334,7 +332,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description getFirstName function
+     * getFirstName function
      *
      * @return string
      */
@@ -344,11 +342,9 @@ class User implements UserInterface
     }
 
     /**
-     * Description setFirstName function
+     * setFirstName function
      *
      * @param string $firstName
-     *
-     * @return
      */
     public function setFirstName(string $firstName)
     {
@@ -356,7 +352,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description getEmail function
+     * getEmail function
      *
      * @return string
      */
@@ -366,7 +362,7 @@ class User implements UserInterface
     }
 
     /**
-     * Description setEmail function
+     * setEmail function
      *
      * @param string $email
      */
